@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    service: backend-feed
+  name: backend-feed
+spec:
+  selector:
+    matchLabels:
+      service: backend-feed
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        service: backend-feed
+    spec:
+      containers:
+      - image: junniepat/udagram-api-feed:latest
+        name: backend-feed
+        imagePullPolicy: Always
+        resources:
+          requests:
+            memory: "2048Mi"
+            cpu: "500m"
+          limits:
+            memory: "2048Mi"
+            cpu: "500m"
+        env:
+        - name: URL
+          value: a219c5656862d434ab574c6d0c6d4dd9-339968.us-east-2.elb.amazonaws.com:8100
+        - name: AWS_BUCKET
+          value: pat-udagram
+        - name: AWS_PROFILE
+          value: default
+        - name: AWS_REGION
+          value: us-east-2
+        - name: JWT_SECRET
+          value: helloworld
+        - name: POSTGRESS_DB
+          value: postgres
+        - name: POSTGRESS_HOST
+          value: postgres.cawwlhcpeugd.us-east-2.rds.amazonaws.com
+        - name: POSTGRESS_PASSWORD
+          value: udagram1
+        - name: POSTGRESS_USERNAME
+          value: udagram1
+        volumeMounts:
+        - name: aws-secret
+          mountPath: "/root/.aws/"
+          readOnly: true
+      restartPolicy: Always
+      volumes:
+      - name: aws-secret
+        secret:
+          secretName: aws-secret

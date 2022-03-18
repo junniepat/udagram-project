@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+data:
+  AWS_BUCKET: pat-udagram
+  AWS_PROFILE: default
+  AWS_REGION: us-east-2
+  JWT_SECRET: helloworld
+  POSTGRESS_USERNAME: udagram1
+  POSTGRESS_PASSWORD: udagram1
+  POSTGRESS_DB: postgres
+  POSTGRESS_HOST: postgres.cawwlhcpeugd.us-east-2.rds.amazonaws.com
+  URL: ae1e5b0e2c32a4456a32184581d758dc-71145547.us-east-2.elb.amazonaws.com:8100
+metadata:
+  name: env-config
